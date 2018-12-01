@@ -16,34 +16,31 @@
 - sys
 
 ### Installation
-- For urllib.request: 
 	Windows
-	```
-	pip install urllib
-	```
+		```
+		pip install urllib
+
+		pip install requests
+
+		pip install bs4
+		```
+
 	Linux
-	```
-	```
-- For requests: 
-	Windows
-	```
-	pip install requests
-	```
-	Linux
-	```
-	```
-- For bs4: 
-	Windows
-	```
-	pip install bs4
-	```
-	Linux
-	```
-	```
+		```
+		sudo python3 -m pip install urllib
+
+		sudo python3 -m pip install requests
+
+		sudo python3 -m pip install bs4
+		```
+	
 
 ### Usage
 	```
 	python youtube_pl_downloader.py
 	```
 
+### Contributors
+- [Bhushan Borole](https://github.com/bhushan-borole)
+- [Rishabh Bhatnagar](https://github.com/RishabhBhatnagar)
 ### Future Scope
