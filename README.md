@@ -16,21 +16,17 @@
 - sys
 
 ### Installation
-	Windows
+Windows
 		```
 		pip install urllib
-
 		pip install requests
-
 		pip install bs4
 		```
 
-	Linux
+Linux
 		```
 		sudo python3 -m pip install urllib
-
 		sudo python3 -m pip install requests
-
 		sudo python3 -m pip install bs4
 		```
 	
