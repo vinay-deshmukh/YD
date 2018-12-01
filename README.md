@@ -16,14 +16,14 @@
 - sys
 
 ### Installation
-Windows
+Windows<br>
 		```
-		pip install urllib  
+		pip install urllib
 		pip install requests  
 		pip install bs4  
 		```
 
-Linux
+Linux<br>
 		```
 		sudo python3 -m pip install urllib  
 		sudo python3 -m pip install requests  
@@ -32,7 +32,7 @@ Linux
 	
 
 ### Usage
-	```
+	```python
 	python youtube_pl_downloader.py
 	```
 
