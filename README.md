@@ -5,6 +5,9 @@
 - The script asks for the playlist link, after user enters the link, download with automatically start.
 - The Progress of each download will be seen with the speed and time passed.
 
+### Flowchart/Algorithm
+![untitled diagram](https://user-images.githubusercontent.com/43790534/49329397-43754280-f5a4-11e8-8a28-912b77aee48b.png)
+
 ### Dependencies
 - urllib.request
 - time
@@ -12,7 +15,7 @@
 - bs4
 - sys
 
-### Installing Dependencies
+### Installation
 - For urllib.request: 
 	Windows
 	```
@@ -39,7 +42,6 @@
 	```
 
 ### Usage
-To run the script just type in the terminal
 	```
 	python youtube_pl_downloader.py
 	```
