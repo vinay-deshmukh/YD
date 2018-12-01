@@ -18,16 +18,16 @@
 ### Installation
 Windows
 		```
-		pip install urllib
-		pip install requests
-		pip install bs4
+		pip install urllib  
+		pip install requests  
+		pip install bs4  
 		```
 
 Linux
 		```
-		sudo python3 -m pip install urllib
-		sudo python3 -m pip install requests
-		sudo python3 -m pip install bs4
+		sudo python3 -m pip install urllib  
+		sudo python3 -m pip install requests  
+		sudo python3 -m pip install bs4  
 		```
 	
 
