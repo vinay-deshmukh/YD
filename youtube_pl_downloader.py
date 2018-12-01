@@ -1,6 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+import urllib.request
+from urllib.request import Request, urlopen
+import sys
+import time
 
+start_time = 0
 url_pl = 'https://www.youtube.com/playlist?list=PLObNowOPccbtYbBNOmIlz0zb8OeoQlNlU'
 
 def get_videos_href(url_pl):
@@ -12,43 +17,62 @@ def get_videos_href(url_pl):
 		if a.get('href').startswith('/watch'):
 			pl_videos.add('https://youtube.com' + a.get('href').split('&')[0])
 
-	#from pprint import pprint as pp
-	#pp(pl_videos)
-
 	return pl_videos
 
-def download_video(video):
-	video = video.replace(':', '%3A').replace('/', '%2F')\
-	.replace('?', '%3F').replace('=', '%3D')
+def reporthook(count, block_size, total_size):
+	global start_time
+	if count == 0:
+		start_time = time.time()
+		return
+		
+	duration = time.time() - start_time
 
-	savedeo = 'https://savedeo.site/download?url=' + video
-	page = requests.get(savedeo)
-	#print(page.content)
+	progress_size = int(count * block_size)
 
-	soup = BeautifulSoup(page.text, 'html.parser')
+	speed = int(progress_size / (1024 * duration))
 
-	print(len(soup.find_all('a', {'class': 'download-button'})))
+	percent = min(int(count*block_size*100/total_size),100)
+
+	sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
+	                (percent, progress_size / (1024 * 1024), speed, duration))
+	sys.stdout.flush()
+
+def save(url, filename):
+	resp = urlopen(Request(url, method='HEAD'))
+	headers = resp.info()
+	urllib.request.urlretrieve(url, filename, reporthook)
+
+
+def download(video_list):
 	
+	for video in video_list:
+		video = video.replace(':', '%3A').replace('/', '%2F').replace('?', '%3F').replace('=', '%3D')
 
-	for a in soup.find_all('a', {'class': 'download-button'}):
-		print(a.get('href'))
-		url = a.get('href')
-		break
-
-	import urllib.request
-	print('DOWNLOADING FILE')
-	file_name = 'answering-your-queries.mp4'
-	urllib.request.urlretrieve(url, file_name)
-	print('download done')
-
-	# https://savedeo.site/download?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D2xrcas1YDkU
-	# https://www.youtube.com/watch?v=2xrcas1YDkU&list=PLObNowOPccbtYbBNOmIlz0zb8OeoQlNlU
-
-#download_video('https://www.youtube.com/watch?v=2xrcas1YDkU')
+	for i in range(len(video_list)):
+		savedeo = 'https://savedeo.site/download?url=' + video_list[i]
+		page = requests.get(savedeo)
 
 
-vid_list = get_videos_href(input('Enter playlist url: '))
+		soup = BeautifulSoup(page.text, 'html.parser')	
 
+		for a in soup.find_all('a', {'class': 'download-button'}):
+			url = a.get('href')
+			break
+
+
+		print('Downloading {}'.format(i+1))
+		file_name = str(i) + '.mp4'
+		save(url, file_name)
+		print('\nDownload complete')
+		print('-'*15)
+
+
+def main():
+	vid_list = list(get_videos_href(input('Enter playlist url: ')))
+	download(vid_list)
+
+if __name__ == '__main__':
+	main()
 
 
 
