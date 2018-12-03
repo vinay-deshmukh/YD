@@ -8,6 +8,13 @@ import time
 start_time = 0
 url_pl = 'https://www.youtube.com/playlist?list=PLObNowOPccbtYbBNOmIlz0zb8OeoQlNlU'
 
+def get_title(url):
+	page = requests.get(url)
+	soup = BeautifulSoup(page.text, 'html.parser')
+	h1 = soup.find_all('h1', {'class' : 'watch-title-container'})[0]
+	yt_formatted_string = h1.find('span')
+	return yt_formatted_string.text.rstrip()
+
 def get_videos_href(url_pl):
 	page_pl = requests.get(url_pl)
 	soup = BeautifulSoup(page_pl.text, 'html.parser')
@@ -49,6 +56,7 @@ def download(video_list):
 		video = video.replace(':', '%3A').replace('/', '%2F').replace('?', '%3F').replace('=', '%3D')
 
 	for i in range(len(video_list)):
+		title = ''.join(list(get_title(video_list[i]))[5:])
 		savedeo = 'https://savedeo.site/download?url=' + video_list[i]
 		page = requests.get(savedeo)
 
@@ -60,8 +68,8 @@ def download(video_list):
 			break
 
 
-		print('Downloading {}'.format(i+1))
-		file_name = str(i) + '.mp4'
+		print('Downloading {}'.format(title))
+		file_name = title + '.mp4'
 		save(url, file_name)
 		print('\nDownload complete')
 		print('-'*15)
