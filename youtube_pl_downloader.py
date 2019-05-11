@@ -36,12 +36,12 @@ def reporthook(count, block_size, total_size):
 
 	progress_size = int(count * block_size)
 
-	speed = int(progress_size / (1024 * duration))
+	#speed = int(progress_size / (1024 * duration))
 
 	percent = min(int(count*block_size*100/total_size),100)
 
-	sys.stdout.write("\r...%d%%, %d MB, %d KB/s, %d seconds passed" %
-	                (percent, progress_size / (1024 * 1024), speed, duration))
+	sys.stdout.write("\r...%d%%, %d MB, %d seconds passed" %
+	                (percent, progress_size / (1024 * 1024), duration))
 	sys.stdout.flush()
 
 def save(url, filename):
@@ -56,7 +56,7 @@ def download(video_list):
 		video = video.replace(':', '%3A').replace('/', '%2F').replace('?', '%3F').replace('=', '%3D')
 
 	for i in range(len(video_list)):
-		title = ''.join(list(get_title(video_list[i]))[5:])
+		title = ''.join(list(get_title(video_list[i]))[5:]).replace("|", "")
 		savedeo = 'https://savedeo.site/download?url=' + video_list[i]
 		page = requests.get(savedeo)
 
@@ -69,7 +69,8 @@ def download(video_list):
 
 
 		print('Downloading {}'.format(title))
-		file_name = title + '.mp4'
+		file_name = title + ".mp4"
+		print(title)
 		save(url, file_name)
 		print('\nDownload complete')
 		print('-'*15)
