@@ -6,18 +6,11 @@ import sys
 import time
 import re
 import os
+import sys
 
 
 start_time = 0
 url_pl = 'https://www.youtube.com/playlist?list=PLObNowOPccbtYbBNOmIlz0zb8OeoQlNlU'
-
-
-def get_title(url):
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-    h1 = soup.find_all('h1', {'class' : 'watch-title-container'})[0]
-    yt_formatted_string = h1.find('span')
-    return yt_formatted_string.text.rstrip()
 
 
 def get_video_url_from_video_id(video_id):
@@ -62,18 +55,26 @@ def save(url, filename):
 
 
 def get_available_title(n):
-    while os.path.isfile('{}.mp4'.format(n)):
+    while True:
+        fname = '{}.mp4'.format(n)
+        if not os.path.isfile(get_abs_filepath(fname)):
+            return fname
         n += 1
-    return ''.format('{}.mp4'.format(n))
+
+
+def get_abs_filepath(fname):
+    dir_path = './'
+    if len(sys.argv) > 1:
+        dir_path = sys.argv[1]
+    return os.path.join(dir_path, fname)
 
 
 def download(video_list):
     n = len(video_list)
     print("There are total {} videos".format(n))
     for i in range(1, n + 1):
-        savedeo = 'https://savedeo.site/download?url=' + video_list[i]
+        savedeo = 'https://savedeo.site/download?url=' + video_list[i - 1]
         page = requests.get(savedeo)
-
 
         soup = BeautifulSoup(page.text, 'html.parser')    
 
@@ -81,11 +82,10 @@ def download(video_list):
             url = a.get('href')
             break
 
-
         print('Downloading video {}/{}'.format(i, n))
-        title = get_available_title(i) # use memoization.
-        print(title)
-        save(url, title)
+        fpath = get_available_title(i) # use memoization.
+        print(fpath)
+        save(url, fpath)
         print('\nDownload complete')
         print('-'*15)
 
