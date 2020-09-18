@@ -45,6 +45,7 @@ python youtube_pl_downloader.py
 
 
 ### Contributors
+- [Vinay Deshmukh](https://github.com/vinay-deshmukh/)
 - [Bhushan Borole](https://github.com/bhushan-borole)
 - [Rishabh Bhatnagar](https://github.com/RishabhBhatnagar)
 
